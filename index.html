@@ -846,15 +846,13 @@ function loadSettingsFromFirebase(){
 }
 
 // ── SECRET SHORTCUT: Ctrl+Shift+E reveals admin button ───────────
-var _keys={};
 document.addEventListener('keydown',function(e){
-  _keys[e.key]=true;
-  if(_keys['Control']&&_keys['Shift']&&_keys['E']){
+  if(e.ctrlKey && e.shiftKey && (e.key==='E'||e.key==='e')){
+    e.preventDefault();
     var btn=document.getElementById('adminBtn');
-    btn.style.display=btn.style.display==='none'?'block':'none';
+    btn.style.display=(btn.style.display==='none'||btn.style.display==='')?'block':'none';
   }
 });
-document.addEventListener('keyup',function(e){ delete _keys[e.key]; });
 
 // Init
 loadSettingsFromFirebase();
