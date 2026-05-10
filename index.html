@@ -175,7 +175,7 @@ h1 span{color:#c0392b;}
     <div class="lb-title" id="lb_title">MASTER BAEZ MARTIAL ARTS</div>
     <div class="lb-sub" id="lb_sub">¡Tu primera clase es <strong style="color:#c0392b">GRATIS</strong>!<br/>Déjanos tu info y te contactamos.<br/><em style="font-size:12px;color:#999">Your first class is FREE — leave your info!</em></div>
     <input type="text"  id="lb_name"  placeholder="Tu nombre / Your name"/>
-    <input type="tel"   id="lb_phone" placeholder="Tu teléfono / Your phone"/>
+    <input type="tel"   id="lb_phone" placeholder="(954) 380-1340" oninput="fmtPhone(this)"/>
     <input type="email" id="lb_email" placeholder="Tu email / Your email (opcional)"/>
     <button class="lb-btn" onclick="submitLead()"><span id="lb_btn_txt">🎉 ¡Quiero mi clase gratis! / Get FREE class!</span></button>
     <div><span class="lb-skip" onclick="skipLead()" id="lb_skip_txt">Continuar sin registrarme / Skip for now</span></div>
@@ -713,6 +713,7 @@ function skipLead(){ closeLead(''); }
 function closeLead(name){
   document.getElementById('leadOverlay').style.display='none';
   document.body.style.overflow='';
+  window.scrollTo({top:0, behavior:'smooth'});
   if(name){
     var en=lang==='en';
     document.getElementById('welcomeMsg').innerHTML = en
@@ -721,6 +722,17 @@ function closeLead(name){
   }
 }
 document.body.style.overflow='hidden';
+
+// ── PHONE FORMAT ──────────────────────────────────────────────────
+function fmtPhone(el){
+  var digits=el.value.replace(/\D/g,'').substring(0,10);
+  var fmt='';
+  if(digits.length===0){ fmt=''; }
+  else if(digits.length<=3){ fmt='('+digits; }
+  else if(digits.length<=6){ fmt='('+digits.substring(0,3)+') '+digits.substring(3); }
+  else { fmt='('+digits.substring(0,3)+') '+digits.substring(3,6)+'-'+digits.substring(6); }
+  el.value=fmt;
+}
 
 // ── ADMIN PANEL ───────────────────────────────────────────────────
 function openAdmin(){
