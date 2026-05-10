@@ -178,7 +178,7 @@ h1 span{color:#c0392b;}
     <input type="tel"   id="lb_phone" placeholder="(954) 380-1340" oninput="fmtPhone(this)"/>
     <input type="email" id="lb_email" placeholder="Tu email / Your email (opcional)"/>
     <button class="lb-btn" onclick="submitLead()"><span id="lb_btn_txt">🎉 ¡Quiero mi clase gratis! / Get FREE class!</span></button>
-    <div><span class="lb-skip" onclick="skipLead()" id="lb_skip_txt">Continuar sin registrarme / Skip for now</span></div>
+    <div id="lb_skip_wrap" style="display:none"><span class="lb-skip" onclick="skipLead()" id="lb_skip_txt">Continuar sin registrarme / Skip for now</span></div>
     <div class="lb-badge">🔒 Tu info es privada · Your info is private</div>
   </div>
 </div>
@@ -696,6 +696,7 @@ function submitLead(){
   var phone=document.getElementById('lb_phone').value.trim();
   var email=document.getElementById('lb_email').value.trim();
   if(!name){ document.getElementById('lb_name').style.borderColor='#e53e3e'; document.getElementById('lb_name').focus(); return; }
+  if(!phone){ document.getElementById('lb_phone').style.borderColor='#e53e3e'; document.getElementById('lb_phone').focus(); return; }
   saveLeadToFirebase(name,phone,email);
   // Notify via WhatsApp
   var now=new Date().toLocaleString('en-US',{timeZone:'America/New_York'});
@@ -861,8 +862,12 @@ function loadSettingsFromFirebase(){
 document.addEventListener('keydown',function(e){
   if(e.ctrlKey && e.shiftKey && (e.key==='E'||e.key==='e')){
     e.preventDefault();
+    // Toggle admin button
     var btn=document.getElementById('adminBtn');
     btn.style.display=(btn.style.display==='none'||btn.style.display==='')?'block':'none';
+    // Also show skip button on lead overlay so admin can bypass
+    var skipWrap=document.getElementById('lb_skip_wrap');
+    if(skipWrap) skipWrap.style.display=(skipWrap.style.display==='none')?'block':'none';
   }
 });
 
